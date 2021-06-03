@@ -88,10 +88,24 @@ async function handleCommand(hint: any) {
     }
   }
 
-  await Promise.all(creates.concat(uploads).map(change => uploadFile(change.uri)));
+  await Promise.all(creates.concat(uploads).map(change => {
+    try {
+      uploadFile(change.uri)
+    } catch (e) {
+      console.log('上传失败', e);
+    }
+  }));
   await Promise.all(
-    renames.map(change => renameRemote(change.originalUri, { originPath: change.renameUri!.fsPath }))
+    renames.map(change => {
+      try {
+        renameRemote(change.originalUri, { originPath: change.renameUri!.fsPath });
+      } catch (e) {
+        console.log('重命名失败', e);
+      }
+    })
   );
+  
+  
 
   logger.log('');
   logger.log('------ Upload Changed Files Result ------');

@@ -308,7 +308,7 @@
         },
         {
           "command": "sftp.upload.changedFiles",
-          "when": "false"
+          "when": "sftp.enabled"
         },
         {
           "command": "sftp.upload.folder",
@@ -506,6 +506,13 @@
         }
       ]
     },
+    "keybindings": [
+      {
+        "command": "sftp.upload.changedFiles",
+        "key": "ctrl+alt+u",
+        "when": "sftp.enabled"
+      }
+    ],
     "jsonValidation": [
       {
         "fileMatch": ".vscode/sftp.json",
@@ -528,7 +535,7 @@
     "dev": "webpack --mode development --watch",
     "test": "jest",
     "package": "vsce package",
-    "pub:debug": "rm -rf _debug && mkdir _debug && vsce package --out _debug/sftp-debug.vsix && cd _debug && git init && git commit --allow-empty -m 'update debug package' && git checkout -b debug-pacakge && cp ../INSTALL_DEBUG.md README.md  && git add . && git commit -am 'update debug package' && git push git@github.com:liximomo/vscode-sftp.git debug-pacakge --force"
+    "build": "vsce package --no-yarn --out sftp-workaround-upload-bug.vsix"
   },
   "devDependencies": {
     "@types/fs-extra": "^5.0.4",
